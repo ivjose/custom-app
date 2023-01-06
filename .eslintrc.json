@@ -14,10 +14,10 @@
     "prefer-const": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error"
-  },
-  "overrides": [
-    {
-      "files": ["pages/**/*.js"]
-    }
-  ]
+  }
+  // "overrides": [
+  //   {
+  //     "files": ["pages/**/*.js"]
+  //   }
+  // ]
 }
