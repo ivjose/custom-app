@@ -30,8 +30,6 @@ function Sidebar({
 }) {
   const router = useRouter()
 
-  console.log(router)
-
   return (
     <>
       <div className="flex flex-shrink-0 items-center px-4">
