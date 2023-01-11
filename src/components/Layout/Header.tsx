@@ -1,8 +1,9 @@
+'use client'
 import { Menu, Transition } from '@headlessui/react'
 import { BellIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+
 import { Fragment, useEffect, useState } from 'react'
 
 import { classNames } from '@utils/helpers'
@@ -13,8 +14,7 @@ const userNavigation = [
   { name: 'Logout', href: '#' },
 ]
 
-function Header() {
-  const router = useRouter()
+function Header({ path }: { path: string | null }) {
   const [breadcrumbs, setBreadcrumbs] = useState<
     {
       name: string
@@ -23,22 +23,24 @@ function Header() {
   >([])
 
   useEffect(() => {
-    const pathWithoutQuery = router.asPath.split('?')[0]
-    let pathArray = pathWithoutQuery.split('/')
-    pathArray.shift()
+    if (path) {
+      const pathWithoutQuery = path.split('?')[0]
+      let pathArray = pathWithoutQuery.split('/')
+      pathArray.shift()
 
-    pathArray = pathArray.filter((path) => path !== '')
+      pathArray = pathArray.filter((path) => path !== '')
 
-    const currentBreadcrumbs = pathArray.map((path, index) => {
-      const href = '/' + pathArray.slice(0, index + 1).join('/')
-      return {
-        href,
-        name: path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' '),
-      }
-    })
+      const currentBreadcrumbs = pathArray.map((path, index) => {
+        const href = '/' + pathArray.slice(0, index + 1).join('/')
+        return {
+          href,
+          name: path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' '),
+        }
+      })
 
-    setBreadcrumbs(currentBreadcrumbs)
-  }, [router.asPath])
+      setBreadcrumbs(currentBreadcrumbs)
+    }
+  }, [path])
 
   return (
     <div className="flex flex-1 justify-between px-8">
@@ -68,9 +70,7 @@ function Header() {
                     <Link
                       href={page.href}
                       className="ml-2 text-sm font-medium capitalize text-gray-500 hover:text-gray-700"
-                      aria-current={
-                        router.asPath === page.href ? 'page' : undefined
-                      }
+                      aria-current={path === page.href ? 'page' : undefined}
                     >
                       {page.name}
                     </Link>
@@ -118,7 +118,7 @@ function Header() {
                   <Link
                     href={item.href}
                     className={classNames(
-                      router.asPath === item.href ? 'bg-gray-100' : '',
+                      path === item.href ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700'
                     )}
                   >
