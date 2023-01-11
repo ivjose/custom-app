@@ -35,8 +35,6 @@ export default function RootLayout({
     { name: 'Logout', href: '#' },
   ]
 
-  console.log(pathname, 'ASDSD')
-
   return (
     <html lang="en">
       <head />
