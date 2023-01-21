@@ -1,8 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Bars3BottomLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
+import { useRouter } from 'next/router'
 import { Fragment, useState } from 'react'
-
 import Header from './Header'
 import Sidebar from './Sidebar'
 
@@ -13,6 +13,7 @@ function Layout({
   children: React.ReactNode
   title: string
 }) {
+  const { asPath } = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const navigation = [
@@ -89,6 +90,7 @@ function Layout({
                   </div>
                 </Transition.Child>
                 <Sidebar
+                  url={asPath}
                   navigation={navigation}
                   subNavigation={subNavigation}
                 />
@@ -105,7 +107,11 @@ function Layout({
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-white">
           <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-            <Sidebar navigation={navigation} subNavigation={subNavigation} />
+            <Sidebar
+              url={asPath}
+              navigation={navigation}
+              subNavigation={subNavigation}
+            />
           </div>
         </div>
       </div>
@@ -121,7 +127,7 @@ function Layout({
           </button>
 
           {/* // HEADER */}
-          <Header />
+          <Header url={asPath} />
         </div>
 
         <main className="flex-1">

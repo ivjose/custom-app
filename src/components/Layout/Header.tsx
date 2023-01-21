@@ -2,7 +2,6 @@ import { Menu, Transition } from '@headlessui/react'
 import { BellIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { Fragment, useEffect, useState } from 'react'
 
 import { classNames } from '@utils/helpers'
@@ -13,8 +12,7 @@ const userNavigation = [
   { name: 'Logout', href: '#' },
 ]
 
-function Header() {
-  const router = useRouter()
+function Header({ url }: { url: string }) {
   const [breadcrumbs, setBreadcrumbs] = useState<
     {
       name: string
@@ -23,7 +21,7 @@ function Header() {
   >([])
 
   useEffect(() => {
-    const pathWithoutQuery = router.asPath.split('?')[0]
+    const pathWithoutQuery = url.split('?')[0]
     let pathArray = pathWithoutQuery.split('/')
     pathArray.shift()
 
@@ -38,7 +36,7 @@ function Header() {
     })
 
     setBreadcrumbs(currentBreadcrumbs)
-  }, [router.asPath])
+  }, [url])
 
   return (
     <div className="flex flex-1 justify-between px-8">
@@ -68,9 +66,7 @@ function Header() {
                     <Link
                       href={page.href}
                       className="ml-2 text-sm font-medium capitalize text-gray-500 hover:text-gray-700"
-                      aria-current={
-                        router.asPath === page.href ? 'page' : undefined
-                      }
+                      aria-current={url === page.href ? 'page' : undefined}
                     >
                       {page.name}
                     </Link>
@@ -118,7 +114,7 @@ function Header() {
                   <Link
                     href={item.href}
                     className={classNames(
-                      router.asPath === item.href ? 'bg-gray-100' : '',
+                      url === item.href ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700'
                     )}
                   >
